@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<project name="Project" default="build">
+
+  <property name="source.dir" location ="src/main"/>
+  <property name="build.dir" location="build"/>
+  <property name="build.classes" location="${build.dir}/classes"/>
+  <property name="doc.dir" location="doc"/>
+  <property name="results.dir" location="results"/>
+  <property name="main.class" value="com.qulix.shchennikov.trainingtask.MainClass"/> 
+  
+  <target name="make.dirs" description="Making  of the auxillary dirs" depends="clean">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.classes}"/>
+	<mkdir dir="${doc.dir}"/>
+	<mkdir dir="${results.dir}"/>
+  </target>
+  
+  <target name="clean" >
+        <delete dir="${build.dir}"/>
+		<delete dir="${doc.dir}"/>
+		<delete dir="${results.dir}"/>
+  </target>
+  
+  <target name="build" description="Compilation of the classes" depends="make.dirs">
+    <javac includeantruntime="false"  destdir="${build.classes}" encoding="utf-8" >
+      <src path="${source.dir}"/>
+    </javac>
+  </target>
+  
+  <target name="start" description="start the project" depends="build">
+    <java dir="${build.classes}" classname="${main.class}" fork="yes"/>
+  </target>
+      
+  
+  <target name="doc" depends="build"> 
+   <javadoc packagenames="com.qulix.shchennikov.trainingtask"
+            sourcepath="src/main/java"
+            destdir="${doc.dir}"
+            classpath="${build.classes}"
+            author="true"
+            version="true"
+            use="true"
+			encoding="UTF-8" 
+			charset="UTF-8" 
+			docencoding="UTF-8"
+   />
+
+</target>
+  
+  <target name="jar" depends="build">
+  <jar destfile="${build.dir}/Project.jar" >
+	<fileset dir="${build.classes}"/>
+  </jar>
+</target>
+  
+</project>
